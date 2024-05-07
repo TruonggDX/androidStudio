@@ -41,24 +41,32 @@ public class MainActivity extends AppCompatActivity {
                 String tenMayTinh = editTextTenMayTinh.getText().toString();
                 String loaiMay = editTextLoaiMay.getText().toString();
                 String hangSX = editTextHangSX.getText().toString();
-                int soLuong = Integer.parseInt(editTextSoLuong.getText().toString());
-                double donGia = Double.parseDouble(editTextDonGia.getText().toString());
-                // Tạo đối tượng máy tính
-                MayTinh mayTinh = new MayTinh(maMayTinh, tenMayTinh, loaiMay, hangSX, soLuong, donGia);
-                // Thêm vào cơ sở dữ liệu
-                long result = mayTinhDAO.addMayTinh(mayTinh);
-                if (result != -1) {
-                    Toast.makeText(MainActivity.this, "Thêm sản phẩm thành công", Toast.LENGTH_SHORT).show();
-                    // Xóa dữ liệu trong khi thêm thành công
-                    editTextMaMayTinh.setText("");
-                    editTextTenMayTinh.setText("");
-                    editTextLoaiMay.setText("");
-                    editTextHangSX.setText("");
-                    editTextSoLuong.setText("");
-                    editTextDonGia.setText("");
-                } else {
-                    Toast.makeText(MainActivity.this, "Thêm sản phẩm thất bại", Toast.LENGTH_SHORT).show();
-                }
+               if (!maMayTinh.equals("") && !tenMayTinh.equals("") && !loaiMay.equals("") && !hangSX.equals("") && !editTextSoLuong.getText().toString().equals("") && !editTextDonGia.getText().toString().equals("")){
+                   try {
+                       int soLuong = Integer.parseInt(editTextSoLuong.getText().toString());
+                       double donGia = Double.parseDouble(editTextDonGia.getText().toString());
+                       // Tạo đối tượng máy tính
+                       MayTinh mayTinh = new MayTinh(maMayTinh, tenMayTinh, loaiMay, hangSX, soLuong, donGia);
+                       // Thêm vào cơ sở dữ liệu
+                       long result = mayTinhDAO.addMayTinh(mayTinh);
+                       if (result != -1) {
+                           Toast.makeText(MainActivity.this, "Thêm sản phẩm thành công", Toast.LENGTH_SHORT).show();
+                           // Xóa dữ liệu trong khi thêm thành công
+                           editTextMaMayTinh.setText("");
+                           editTextTenMayTinh.setText("");
+                           editTextLoaiMay.setText("");
+                           editTextHangSX.setText("");
+                           editTextSoLuong.setText("");
+                           editTextDonGia.setText("");
+                       } else {
+                           Toast.makeText(MainActivity.this, "Thêm sản phẩm thất bại", Toast.LENGTH_SHORT).show();
+                       }
+                   }catch (NumberFormatException ex){
+                       Toast.makeText(MainActivity.this, "Vui lòng nhập số cho số lượng, đơn giá", Toast.LENGTH_SHORT).show();
+                   }
+               }else {
+                   Toast.makeText(MainActivity.this, "Vui lòng nhập đầy đủ các trường", Toast.LENGTH_SHORT).show();
+               }
             }
         });
 

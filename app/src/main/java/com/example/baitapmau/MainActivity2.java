@@ -102,21 +102,29 @@ public class MainActivity2 extends AppCompatActivity {
                 String tenMayTinh = editTextTenMayTinh.getText().toString();
                 String loaiMay = editTextLoaiMay.getText().toString();
                 String hangSX = editTextHangSX.getText().toString();
-                int soLuong = Integer.parseInt(editTextSoLuong.getText().toString());
-                double donGia = Double.parseDouble(editTextDonGia.getText().toString());
+                if (!tenMayTinh.equals("") && !loaiMay.equals("") && !hangSX.equals("") && !editTextSoLuong.getText().toString().equals("") && !editTextDonGia.getText().toString().equals("")){
+                  try {
+                      int soLuong = Integer.parseInt(editTextSoLuong.getText().toString());
+                      double donGia = Double.parseDouble(editTextDonGia.getText().toString());
 
-                // Tạo đối tượng máy tính mới
-                MayTinh editedMayTinh = new MayTinh(mayTinh.getMaMayTinh(), tenMayTinh, loaiMay, hangSX, soLuong, donGia);
+                      // Tạo đối tượng máy tính mới
+                      MayTinh editedMayTinh = new MayTinh(mayTinh.getMaMayTinh(), tenMayTinh, loaiMay, hangSX, soLuong, donGia);
 
-                // Cập nhật máy tính trong cơ sở dữ liệu
-                boolean updated = mayTinhDAO.updateMayTinh(editedMayTinh);
+                      // Cập nhật máy tính trong cơ sở dữ liệu
+                      boolean updated = mayTinhDAO.updateMayTinh(editedMayTinh);
 
-                if (updated) {
-                    // Cập nhật lại danh sách máy tính và RecyclerView
-                    loadMayTinhList();
-                    Toast.makeText(MainActivity2.this, "Đã cập nhật máy tính", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(MainActivity2.this, "Không thể cập nhật máy tính", Toast.LENGTH_SHORT).show();
+                      if (updated) {
+                          // Cập nhật lại danh sách máy tính và RecyclerView
+                          loadMayTinhList();
+                          Toast.makeText(MainActivity2.this, "Đã cập nhật máy tính", Toast.LENGTH_SHORT).show();
+                      } else {
+                          Toast.makeText(MainActivity2.this, "Không thể cập nhật máy tính", Toast.LENGTH_SHORT).show();
+                      }
+                  }catch (NumberFormatException ex){
+                      Toast.makeText(MainActivity2.this, "Vui lòng nhập số cho số lượng, đơn giá", Toast.LENGTH_SHORT).show();
+                  }
+                }else {
+                    Toast.makeText(MainActivity2.this, "Vui lòng nhập đầy đủ các trường", Toast.LENGTH_SHORT).show();
                 }
             }
         });
